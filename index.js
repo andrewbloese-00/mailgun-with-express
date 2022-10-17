@@ -1,13 +1,11 @@
 require("dotenv").config()
-const port = process.env.PORT || 8080;
 
-const { sendMail } = require("./sendMail")
+const { sendMail } = require('./sendMail')
 const express = require('express')
+const app = express()
 
-const app = express();
 app.use(express.json())
-
-app.post("/api/v1/mail/html", async ( req , res ) => { 
+app.post('/api/v1/mail', async ( req , res ) => { 
     const { from , to , subject, text , html  } = req.body;
     const mailSent = await sendMail(from,[to],subject,text,html);
     if(mailSent.success){
@@ -18,4 +16,4 @@ app.post("/api/v1/mail/html", async ( req , res ) => {
 
 })
 
-app.listen(port, ()=>console.log(`Mailer listening on port ${port}`))
+app.listen(process.env.PORT || 8080 , () => console.log(`Mailer running on ${process.env.PORT || 8080}`))
