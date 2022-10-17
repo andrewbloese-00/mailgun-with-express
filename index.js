@@ -17,3 +17,5 @@ app.post('/api/v1/mail', async ( req , res ) => {
 })
 
 app.listen(process.env.PORT || 8080 , () => console.log(`Mailer running on ${process.env.PORT || 8080}`))
+
+
