@@ -9,6 +9,7 @@ const { check_auth } = require("./authentication_handler")
 const app = express()
 
 app.use(express.json())
+app.get("/", async (req,res)=>res.send("Not a route"))
 app.post('/api/v1/mail', async ( req , res ) => { 
     if(!check_auth(req.headers)){
         return res.status(403).json({
