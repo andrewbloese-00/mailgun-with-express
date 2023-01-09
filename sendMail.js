@@ -13,12 +13,11 @@ exports.sendMail = async function ( from , to , subject, text="" , html="" ) {
             text: text, 
             html: html,
         }
-
-
         try {
             const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, message)
             return { success: true, message: msg}
         } catch (err) {
+            console.error(err)
             return { success: false, message: err.message}
         }
 }
