@@ -1,14 +1,26 @@
 require("dotenv").config()
+const express = require('express')
+const cors = require('cors')
 
 const { sendMail } = require('./sendMail')
-const express = require('express')
+const check_auth = ( headers ) => { 
+    const authorization = headers.authorization || headers.Authorization
+    if(!authorization) return false;
+    const token = authorization.split(" ")[1]
 
-const { check_auth } = require("./authentication_handler")
+    if(token === process.env.ADMIN_TOKEN ){
+        return true;
+    }
 
+    return false
+
+
+}
 
 const app = express()
 
 app.use(express.json())
+app.use(cors());
 app.get("/", async (req,res)=>res.send("Not a route"))
 app.post('/api/v1/mail', async ( req , res ) => { 
     if(!check_auth(req.headers)){
