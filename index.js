@@ -8,6 +8,7 @@ const check_auth = ( headers ) => {
     if(!authorization) return false;
     const token = authorization.split(" ")[1]
 
+    //ideally you would use a better system of authentication but for examples sake this will do
     if(token === process.env.ADMIN_TOKEN ){
         return true;
     }
@@ -21,7 +22,11 @@ const app = express()
 
 app.use(express.json())
 app.use(cors());
+
+//this api does not have any html page responses it simply performs the mail action
 app.get("/", async (req,res)=>res.send("Not a route"))
+
+/* Expects from, to , subject, text, and html fields to be present, otherwise req will fail */
 app.post('/api/v1/mail', async ( req , res ) => { 
     if(!check_auth(req.headers)){
         return res.status(403).json({
